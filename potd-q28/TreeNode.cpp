@@ -10,18 +10,37 @@ TreeNode* findNode(TreeNode* root, int key)
   return nullptr;
 }
 
-TreeNode* findMax(TreeNode* root)
-{
-  if (root == nullptr)  return nullptr;
-  if (root->right_ != nullptr)  return findMax(root->right_);
+TreeNode * minValueNode(TreeNode* node) {
+  TreeNode * curr = node;
+  while (curr->left_) curr=curr->left_;
+  return curr;
+}
+
+TreeNode * deleteNode(TreeNode* root, int key) {
+  if (!root) return root;
+  if (key < root->val_) root->left_ = deleteNode (root->left_, key);
+  else if (key > root->val_) root->right_ = deleteNode (root->right_, key);
+  else {
+    if (!root->left_) {
+      TreeNode *temp = root->right_;
+      delete root;
+      return temp;
+    } else if (!root->right_) {
+      TreeNode *temp = root->left_;
+      delete root;
+      return temp;
+    }
+    TreeNode *temp = minValueNode(root->right_);
+    root->val_ = temp->val_;
+    root->right_ = deleteNode(root->right_, temp->val_);
+  }
   return root;
 }
 
-TreeNode* findMin(TreeNode* root)
-{
-  if (root == nullptr)  return nullptr;
-  if (root->left_ != nullptr) return findMin(root->left_);
-  return root;
+/* TreeNode * findMin(TreeNode* node) {
+  TreeNode * curr = node;
+  while (curr->left_) curr=curr->left_;
+  return curr;
 }
 
 TreeNode* deleteNode(TreeNode* root, int key) {
@@ -49,7 +68,7 @@ TreeNode* deleteNode(TreeNode* root, int key) {
     root->right_ = deleteNode(root->right_, newNode->val_);
   }
   return root;
-}
+} */
 
 void inorderPrint(TreeNode* node)
 {
