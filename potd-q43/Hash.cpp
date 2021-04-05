@@ -18,14 +18,21 @@ float hash_goodness(std::string str, int M)
 {
     std::vector<int>* array = new std::vector<int>(M);	// Hint: This comes in handy
 	int permutation_count = 0;	
+	int collision_count = 0;
 	float goodness = 0;
 	do {
 		if (permutation_count == M) break;
 		// Code for computing the hash and updating the array
-
+		array->at(bernstein(str, M))++;
+		permutation_count++;
 	} while(std::next_permutation(str.begin(), str.end()));
 	
 	//Code for determining goodness
+	for (unsigned i = 0; i < M; i++)
+	{
+		if (array->at(i) > 1)	goodness += (array->at(i)-1);
+	}
+	goodness /= M;
 
 	return goodness;
 }
