@@ -11,9 +11,8 @@ string decipherer(string filename) {
 	string output = "";
 	ifstream input(filename);
 	map<string, unsigned> wordSet;
-	while (!input.eof())
+	while (input.getline (strIn, 200))
 	{
-		input.getline (strIn, 200);
 		if (wordSet.find(strIn) == wordSet.end())	wordSet[strIn] = 1;
 		else	wordSet[strIn]++;
 	}
